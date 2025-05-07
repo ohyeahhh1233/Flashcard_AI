@@ -28,5 +28,7 @@ public class FlashCardApp {
     public int getWrong(){
         return boohoo;
     }
-    
+    public String toString(){
+        return questions + "," + answers + "," + yippie + "," + boohoo;
+    }
 }
