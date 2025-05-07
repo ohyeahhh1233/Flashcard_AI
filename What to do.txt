@@ -1,0 +1,19 @@
+Welcome to FlashStudy!
+1. Add flashcard
+2. Review flashcards
+3. View performance
+4. Save & Exit
+
+[1] Add flashcard:
+Question: What is the capital of France?
+Answer: Paris
+
+[2] Review:
+Q: What is the capital of France?
+Your Answer: paris
+Correct!
+
+[3] Performance:
+- "Capital of France" → 3 correct / 1 wrong
+
+FlashCardApp <= Main
