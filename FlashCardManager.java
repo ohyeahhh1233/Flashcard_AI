@@ -16,8 +16,26 @@ public class FlashCardManager {
     private void reviews(){
         Collection.shuffle(cards);
         for(Flashcards card:cards){
-
+            System.out.println("Q:" + card.getQuestion());
+            System.out.print("Your Answer: ");
+            String answer = input.nextLine();
+            if(answer.equalsIgnoreCase(card.getAnswer())){
+                System.out.println("NOICE u did it bb");
+                card.markCorrect();
+            }
+            else{
+                System.out.println("Ehh Your wrong b*tch, the correct answer is: " + card.getAnswer() + "\n");
+                card.markWrong();
+            }
         }
+    }
+    private void stats(){
+        for (Flashcard card : cards){
+            System.out.println("\"" + card.getQuestion() "\" > " + card.YourRight() + " correct / " + card.YourWrong + " wrong");
+        }
+    }
+    public void SaveFile(Strong filename) throws IOException{
+        
     }
 }
 
