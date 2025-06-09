@@ -21,7 +21,19 @@ public class Flashcard {
 
             String choice = input.nextLine();
             if(choice.equals("1")){
-
+                manager.addCard();
+            } else if (choice.equals("2")) {
+                manager.review();
+            } else if (choice.equals("3")) {
+                manager.viewStats();
+            } else if (choice.equals("4")) {
+                try{
+                    manager.SaveFile("flashcard.txt");
+                }catch (IOException e){
+                    System.out.println("we cant save your flashcards");
+                }
+                System.out.println("bye bye");
+                break;
             }
         }
     }
