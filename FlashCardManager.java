@@ -2,25 +2,25 @@ import java.io.*;
 import java.util.*;
 
 public class FlashCardManager {
-    private List<Flashcards> cards = new ArrayList<>();
+    private List<Flashcard> cards = new ArrayList<>();
     private Scanner input = new Scanner(System.in);
 
     public void papers() {
         System.out.println("Enter Question:");
-        String knowledge = input.nextLine();
+        String question = input.nextLine();
         System.out.println("Enter Answer:");
-        String WhatYaGot = input.nextLine();
-        cards.add(new Flashcards(knowledge, WhatYaGot));
+        String answer = input.nextLine();
+        cards.add(new Flashcard(question, answer));
         System.out.println("Flashcard added.\n");
     }
 
     public void reviews() {
         Collections.shuffle(cards);
-        for (Flashcards card : cards) {
+        for (Flashcard card : cards) {
             System.out.println("Q: " + card.getQuestion());
             System.out.print("Your Answer: ");
-            String answer = input.nextLine();
-            if (answer.equalsIgnoreCase(card.getAnswer())) {
+            String userAnswer = input.nextLine();
+            if (userAnswer.equalsIgnoreCase(card.getAnswer())) {
                 System.out.println("NOICE u did it bb\n");
                 card.markCorrect();
             } else {
@@ -31,7 +31,7 @@ public class FlashCardManager {
     }
 
     public void stats() {
-        for (Flashcards card : cards) {
+        for (Flashcard card : cards) {
             System.out.println("\"" + card.getQuestion() + "\" → " +
                     card.getCorrectCount() + " correct / " + card.getWrongCount() + " wrong");
         }
@@ -39,8 +39,11 @@ public class FlashCardManager {
 
     public void saveFile(String filename) throws IOException {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
-            for (Flashcards card : cards) {
-                writer.println(card);
+            for (Flashcard card : cards) {
+                writer.println(card.getQuestion() + "," +
+                        card.getAnswer() + "," +
+                        card.getCorrectCount() + "," +
+                        card.getWrongCount());
             }
         }
     }
@@ -49,12 +52,17 @@ public class FlashCardManager {
         cards.clear();
         File file = new File(filename);
         if (!file.exists()) return;
+
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                Flashcards card = new Flashcards(parts[0], parts[1]);
-                cards.add(card);
+                String[] parts = line.split(",", 4);
+                if (parts.length == 4) {
+                    Flashcard card = new Flashcard(parts[0], parts[1]);
+                    card.setCorrectCount(Integer.parseInt(parts[2]));
+                    card.setWrongCount(Integer.parseInt(parts[3]));
+                    cards.add(card);
+                }
             }
         }
     }
