@@ -1,44 +1,50 @@
-import java.io.IOException;
-import java.util.Scanner;
+public class Flashcard {
+    private String question;
+    private String answer;
+    private int correctCount;
+    private int wrongCount;
 
-public class FlashcardApp {
+    public Flashcard(String question, String answer) {
+        this.question = question;
+        this.answer = answer;
+        this.correctCount = 0;
+        this.wrongCount = 0;
+    }
 
-    public static void main(String[] args) {
-        FlashCardManager manager = new FlashCardManager();
+    public String getQuestion() {
+        return question;
+    }
 
-        try {
-            manager.loadFile("flashcards.txt");
-        } catch (IOException e) {
-            System.out.println("Could not load flashcards, starting fresh.");
-        }
+    public String getAnswer() {
+        return answer;
+    }
 
-        try (Scanner input = new Scanner(System.in)) {
-            while (true) {
-                System.out.println("""
-                        ========= FLASHCARDS =========
-                        1) Add a flashcard
-                        2) Review
-                        3) View stats
-                        4) Save & quit
-                        ==============================""");
-                System.out.print("Pick an option: ");
+    public void markCorrect() {
+        correctCount++;
+    }
 
-                switch (input.nextLine().trim()) {
-                    case "1" -> manager.papers();
-                    case "2" -> manager.reviews();
-                    case "3" -> manager.stats();
-                    case "4" -> {
-                        try {
-                            manager.saveFile("flashcards.txt");
-                        } catch (IOException e) {
-                            System.out.println("Could not save flashcards!");
-                        }
-                        System.out.println("Bye-bye");
-                        return;
-                    }
-                    default -> System.out.println("Invalid choice, try again.");
-                }
-            }
-        }
+    public void markWrong() {
+        wrongCount++;
+    }
+
+    public int getCorrectCount() {
+        return correctCount;
+    }
+
+    public int getWrongCount() {
+        return wrongCount;
+    }
+
+    public void setCorrectCount(int count) {
+        this.correctCount = count;
+    }
+
+    public void setWrongCount(int count) {
+        this.wrongCount = count;
+    }
+
+    @Override
+    public String toString() {
+        return question + "," + answer + "," + correctCount + "," + wrongCount;
     }
 }
