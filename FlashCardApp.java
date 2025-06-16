@@ -1,50 +1,51 @@
-public class Flashcard {
-    private String question;
-    private String answer;
-    private int correctCount;
-    private int wrongCount;
+import java.io.IOException;
+import java.util.Scanner;
 
-    public Flashcard(String question, String answer) {
-        this.question = question;
-        this.answer = answer;
-        this.correctCount = 0;
-        this.wrongCount = 0;
-    }
+public class FlashcardApp {
 
-    public String getQuestion() {
-        return question;
-    }
+    public static void main(String[] args) {
+        FlashCardManager manager = new FlashCardManager();
 
-    public String getAnswer() {
-        return answer;
-    }
+        try {
+            manager.loadFile("flashcards.txt");
+        } catch (IOException e) {
+            System.out.println("Could not load flashcards, starting fresh.");
+        }
 
-    public void markCorrect() {
-        correctCount++;
-    }
+        try (Scanner input = new Scanner(System.in)) {
+            while (true) {
+                System.out.println(
+                        "========= FLASHCARDS =========\n" +
+                        "1) Add a flashcard\n" +
+                        "2) Review\n" +
+                        "3) View stats\n" +
+                        "4) Save & quit\n" +
+                        "==============================");
 
-    public void markWrong() {
-        wrongCount++;
-    }
+                System.out.print("Pick an option: ");
 
-    public int getCorrectCount() {
-        return correctCount;
-    }
-
-    public int getWrongCount() {
-        return wrongCount;
-    }
-
-    public void setCorrectCount(int count) {
-        this.correctCount = count;
-    }
-
-    public void setWrongCount(int count) {
-        this.wrongCount = count;
-    }
-
-    @Override
-    public String toString() {
-        return question + "," + answer + "," + correctCount + "," + wrongCount;
+                switch (input.nextLine().trim()) {
+                    case "1":
+                        manager.papers();  
+                        break;
+                    case "2":
+                        manager.reviews();  
+                        break;
+                    case "3":
+                        manager.stats();     
+                        break;
+                    case "4":
+                        try {
+                            manager.saveFile("flashcards.txt");
+                        } catch (IOException e) {
+                            System.out.println("Could not save flashcards!");
+                        }
+                        System.out.println("Bye-bye");
+                        return;              
+                    default:
+                        System.out.println("Invalid choice, try again.");
+                }
+            }
+        }
     }
 }
