@@ -1,34 +1,50 @@
-public class FlashCardApp {
-    private String questions;
-    private String answers;
-    private int yippie;
-    private int boohoo;
+public class Flashcard {
+    private String question;
+    private String answer;
+    private int correctCount;
+    private int wrongCount;
 
-    public FlashCardApp(String questions, String answers){
-        this.questions = questions;
-        this.answers = answers;
-        this.yippie = 0;
-        this.boohoo = 0;
+    public Flashcard(String question, String answer) {
+        this.question = question;
+        this.answer = answer;
+        this.correctCount = 0;
+        this.wrongCount = 0;
     }
-    public String getQuestion(){
-        return questions;
+
+    public String getQuestion() {
+        return question;
     }
-    public String getAnswer(){
-        return answers;
+
+    public String getAnswer() {
+        return answer;
     }
-    private void YourRight(){
-        yippie++;
+
+    public void markCorrect() {
+        correctCount++;
     }
-    private void YourWrong(){
-        boohoo++;
+
+    public void markWrong() {
+        wrongCount++;
     }
-    public int getRight(){
-        return yippie;
+
+    public int getCorrectCount() {
+        return correctCount;
     }
-    public int getWrong(){
-        return boohoo;
+
+    public int getWrongCount() {
+        return wrongCount;
     }
-    public String toString(){
-        return questions + "," + answers + "," + yippie + "," + boohoo;
+
+    public void setCorrectCount(int count) {
+        this.correctCount = count;
+    }
+
+    public void setWrongCount(int count) {
+        this.wrongCount = count;
+    }
+
+    @Override
+    public String toString() {
+        return question + "," + answer + "," + correctCount + "," + wrongCount;
     }
 }
